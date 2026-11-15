@@ -39,7 +39,7 @@
 (fit_same_host) {
 	@fit_foreign {
 		path /fit /fit/*
-		not client_ip DEVEL_SERVER_IP
+		not client_ip 100.78.132.23
 	}
 	respond @fit_foreign "Forbidden" 403
 }
