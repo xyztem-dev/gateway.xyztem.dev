@@ -32,4 +32,16 @@
 	}
 }
 
+# The t3 gateway's FIT engine (t3-gateway, spec 035) is served under /fit on the
+# gateway's own port. Django reaches it over the docker network, never through
+# Caddy; through Caddy, only the devel server itself may. client_ip is the real
+# client behind Cloudflare (trusted_proxies above). Set to the devel server's public IP.
+(fit_same_host) {
+	@fit_foreign {
+		path /fit /fit/*
+		not client_ip DEVEL_SERVER_IP
+	}
+	respond @fit_foreign "Forbidden" 403
+}
+
 import "*.Caddyfile"
