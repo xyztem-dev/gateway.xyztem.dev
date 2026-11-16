@@ -32,16 +32,18 @@
 	}
 }
 
-# The t3 gateway's FIT engine (t3-gateway, spec 035) is served under /fit on the
-# gateway's own port. Django reaches it over the docker network, never through
-# Caddy; through Caddy, only the devel server itself may. client_ip is the real
-# client behind Cloudflare (trusted_proxies above). Set to the devel server's public IP.
-(fit_same_host) {
-	@fit_foreign {
-		path /fit /fit/*
+# The t3 gateway serves two surfaces of its own on its port, ahead of Django's API:
+# the FIT engine under /fit (t3-gateway, spec 035) and the pricing model under
+# /pricing (docs/pricing-cutover.md). Neither asks for a token. Django reaches them
+# over the docker network, never through Caddy; through Caddy, only the devel server
+# itself may. client_ip is the real client behind Cloudflare (trusted_proxies above).
+# Set to the devel server's Tailscale IP.
+(gateway_same_host) {
+	@gateway_foreign {
+		path /fit /fit/* /pricing /pricing/*
 		not client_ip 100.78.132.23
 	}
-	respond @fit_foreign "Forbidden" 403
+	respond @gateway_foreign "Forbidden" 403
 }
 
 import "*.Caddyfile"

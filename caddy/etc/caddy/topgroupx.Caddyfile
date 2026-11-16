@@ -16,7 +16,7 @@ backend.t3s.es {
 gateway.t3s.es {
 	tls /etc/caddy/certs/t3s.es.pem /etc/caddy/certs/t3s.es.key
 
-	import fit_same_host
+	import gateway_same_host
 
 	reverse_proxy /* 100.78.132.23:8003
 
