@@ -40,7 +40,7 @@
 # Set to the devel server's Tailscale IP.
 (gateway_same_host) {
 	@gateway_foreign {
-		path /fit /fit/* /pricing /pricing/*
+        path /fit /fit/* /pricing /pricing/* /wallet /wallet/*
 		not client_ip 100.78.132.23
 	}
 	respond @gateway_foreign "Forbidden" 403
